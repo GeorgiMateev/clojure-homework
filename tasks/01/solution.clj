@@ -37,13 +37,25 @@
                     (if (= (nth xs i) x)
                       (inc c)
                       c))))) xs))
-(densities [0])
 
 (defn index-by [f xs]
-  nil)
+  (apply merge (for [x xs]
+    {(f x) x})))
 
 (defn harmonic [n]
   nil)
 
 (defn uniquify [in]
-  nil)
+  (loop [i 0 counters {} result []]
+     (if (< i (count in))
+      (let [x (nth in i) value (counters x)]
+          (recur
+           (inc i)
+           (if (nil? value)
+            (assoc counters x 1)
+            (assoc counters x (inc value)))
+           (conj result
+                 (if (nil? value)
+                   x
+                   (str x \- value)))))
+       result)))
